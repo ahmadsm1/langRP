@@ -1,0 +1,22 @@
+services:
+  web: 
+    build:
+      context: backend
+      target: builder
+    stop_signal: SIGINT
+    ports:
+      - '8000:8000'
+    volumes:
+      - ./backend:/backend
+    environment:
+      - FLASK_ENV=development
+  frontend:
+    build:
+      context: frontend
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./frontend:/frontend
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
