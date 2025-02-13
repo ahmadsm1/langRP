@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { toast } from "sonner"
 import { Button } from "@/components/ui/button";
-import * as React from "react";
+import { CardWithForm } from "./menu_card";
 
 async function fetchHello(): Promise<string | null> {
   try {
@@ -43,6 +43,9 @@ export default function Home() {
         <Button onClick={handleClick}>
           Show Toast
         </Button>
+      </div>
+      <div>
+        <CardWithForm/>
       </div>
     </main>
   );
