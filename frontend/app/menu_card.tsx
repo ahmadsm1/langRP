@@ -1,8 +1,6 @@
 import * as React from "react"
 import { useState } from "react"
-import { useToast } from "@/hooks/use-toast"
 
-import { Trash2, Pencil } from "lucide-react";
 import { DeleteIcon } from "@/components/icons/delete";
 import { EditIcon } from "@/components/icons/edit";
 
@@ -38,21 +36,12 @@ class Character {
 
 export function CardWithForm() {
   const LANGS = ["urdu", "french"];
-  const {toast} = useToast();
   
   const [description, setDescription] = useState("");
-  const [language, setLanguage] = useState(LANGS[0]);
+  const [language, setLanguage] = useState("");
   const [characters, setCharacters] = useState<Character[]>([]);
   const [addCharOpen, setAddCharOpen] = useState(false);
   
-  const handleCharacterAdd = (character: Character) => {
-    setCharacters([...characters, character]);
-    toast({
-      title: "Success",
-      description: "Character added successfully",
-    });
-  }
-
   return (
     <Card className="w-[350px]">
       <CardHeader>
@@ -69,13 +58,16 @@ export function CardWithForm() {
             </div>
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="framework">Language</Label>
-              <Select>
+              <Select onValueChange={setLanguage} value={language}>
                 <SelectTrigger id="framework">
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent position="popper">
-                  <SelectItem value="urdu">Urdu</SelectItem>
-                  <SelectItem value="french">French</SelectItem>
+                  {LANGS.map((lang, index) => (
+                    <SelectItem key={index} value={lang}>
+                      {lang.charAt(0).toUpperCase() + lang.slice(1)}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
@@ -89,13 +81,13 @@ export function CardWithForm() {
                   </div>
                   <div className="flex gap-2">
                     <EditIcon />
-                    <DeleteIcon />
+                    <DeleteIcon onClick={() => setCharacters(characters.filter((_, i) => i !== index))} />
                   </div>
                 </div>
               ))}
               
               <AddCharPopover 
-                onCharacterAdd={handleCharacterAdd}
+                onCharacterAdd={(character: Character) => setCharacters([...characters, character])}
                 open={addCharOpen}
                 onOpenChange={setAddCharOpen}
               />
@@ -104,7 +96,7 @@ export function CardWithForm() {
         </form>
       </CardContent>
       <CardFooter className="flex justify-between">
-        <Button onClick={() => console.log(characters)}>Start</Button>
+        <Button onClick={() => console.log(description, language, characters)}>Start</Button>
       </CardFooter>
     </Card>
   )
