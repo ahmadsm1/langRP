@@ -22,6 +22,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { useToast } from "@/hooks/use-toast"
 import { AddCharPopover } from "./character_popover";
 
 class Character {
@@ -37,11 +38,27 @@ class Character {
 export function CardWithForm() {
   const LANGS = ["urdu", "french"];
   
+  const {toast} = useToast();
+
   const [description, setDescription] = useState("");
   const [language, setLanguage] = useState("");
   const [characters, setCharacters] = useState<Character[]>([]);
   const [addCharOpen, setAddCharOpen] = useState(false);
   
+  const handleStartClick = () => {
+    if (description != "" && language != "" && characters.length > 0) {
+      console.log(description, language, characters);
+    }
+    else {
+      console.log("Please fill out all fields.");
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Please enter all the fields.",
+      });
+    }
+  }
+
   return (
     <Card className="w-[350px]">
       <CardHeader>
@@ -96,7 +113,7 @@ export function CardWithForm() {
         </form>
       </CardContent>
       <CardFooter className="flex justify-between">
-        <Button onClick={() => console.log(description, language, characters)}>Start</Button>
+        <Button onClick={handleStartClick}>Start</Button>
       </CardFooter>
     </Card>
   )
