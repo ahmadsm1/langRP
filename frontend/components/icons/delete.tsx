@@ -6,12 +6,19 @@ import {
     TooltipTrigger,
   } from "@/components/ui/tooltip"
   
-export function DeleteIcon() {
+interface DeleteIconProps {
+    onClick: () => void;
+}
+
+export function DeleteIcon({ onClick }: DeleteIconProps) {
     return (
         <TooltipProvider delayDuration={10}>
             <Tooltip>
                 <TooltipTrigger asChild>
-                    <Trash2 className="h-5 w-5 cursor-pointer" color="#cb2c2a"/>
+                    <Trash2 
+                        className="h-5 w-5 cursor-pointer" 
+                        color="#cb2c2a"
+                        onClick={onClick}/>
                 </TooltipTrigger>
                 <TooltipContent>
                     <p>Delete</p>
