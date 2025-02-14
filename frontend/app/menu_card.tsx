@@ -1,5 +1,6 @@
 import * as React from "react"
 import { useState } from "react"
+import { useToast } from "@/hooks/use-toast"
 import * as PopoverPrimitive from '@radix-ui/react-popover';
 const PopoverClose = PopoverPrimitive.Close;
 
@@ -39,19 +40,35 @@ class Character {
 }
 
 export function CardWithForm() {
+  
   const LANGS = ["urdu", "french"];
-
+  const {toast} = useToast();
+  
   const [description, setDescription] = useState("");
   const [language, setLanguage] = useState(LANGS[0]);
   const [characters, setCharacters] = useState<Character[]>([]);
-
-
+  
+  const [addCharOpen, setAddCharOpen] = useState(false);
+  
   const handleAddCharacter = () => {
     const name = document.getElementById("character_name") as HTMLInputElement;
     const desc = document.getElementById("character_desc") as HTMLInputElement;
-    if (name && desc) {
+    
+    if (name && desc && name.value != "" && desc.value != "") {
       const newCharacter = new Character(name.value, desc.value);
       setCharacters([...characters, newCharacter]);
+      setAddCharOpen(false);
+      return true;
+    }
+    else {
+      console.log("Please fill out all fields");
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Please enter both a name and description for the character.",
+      });
+      setAddCharOpen;
+      return false
     }
 
   }
@@ -84,7 +101,7 @@ export function CardWithForm() {
             </div>
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="name">Characters</Label>
-              <Popover>
+              <Popover open={addCharOpen} onOpenChange={setAddCharOpen}>
               <PopoverTrigger asChild>
                 <Button variant="outline">Add</Button>
               </PopoverTrigger>
@@ -105,9 +122,7 @@ export function CardWithForm() {
                         placeholder="e.g: A customer waiting in line"
                         />
                     </div>
-                    <PopoverClose asChild>
-                      <Button onClick={handleAddCharacter}>Add</Button>
-                      </PopoverClose>
+                        <Button onClick={handleAddCharacter}>Add</Button>
                   </div>
                 </PopoverContent>
               </Popover>
