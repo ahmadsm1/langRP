@@ -1,8 +1,10 @@
 import * as React from "react"
 import { useState } from "react"
 import { useToast } from "@/hooks/use-toast"
-import * as PopoverPrimitive from '@radix-ui/react-popover';
-const PopoverClose = PopoverPrimitive.Close;
+
+import { Trash2, Pencil } from "lucide-react";
+import { DeleteIcon } from "@/components/icons/delete";
+import { EditIcon } from "@/components/icons/edit";
 
 import { Button } from "@/components/ui/button"
 import {
@@ -22,12 +24,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
-
+import { AddCharPopover } from "./character_popover";
 
 class Character {
   name: string;
@@ -40,37 +37,20 @@ class Character {
 }
 
 export function CardWithForm() {
-  
   const LANGS = ["urdu", "french"];
   const {toast} = useToast();
   
   const [description, setDescription] = useState("");
   const [language, setLanguage] = useState(LANGS[0]);
   const [characters, setCharacters] = useState<Character[]>([]);
-  
   const [addCharOpen, setAddCharOpen] = useState(false);
   
-  const handleAddCharacter = () => {
-    const name = document.getElementById("character_name") as HTMLInputElement;
-    const desc = document.getElementById("character_desc") as HTMLInputElement;
-    
-    if (name && desc && name.value != "" && desc.value != "") {
-      const newCharacter = new Character(name.value, desc.value);
-      setCharacters([...characters, newCharacter]);
-      setAddCharOpen(false);
-      return true;
-    }
-    else {
-      console.log("Please fill out all fields");
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Please enter both a name and description for the character.",
-      });
-      setAddCharOpen;
-      return false
-    }
-
+  const handleCharacterAdd = (character: Character) => {
+    setCharacters([...characters, character]);
+    toast({
+      title: "Success",
+      description: "Character added successfully",
+    });
   }
 
   return (
@@ -101,31 +81,24 @@ export function CardWithForm() {
             </div>
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="name">Characters</Label>
-              <Popover open={addCharOpen} onOpenChange={setAddCharOpen}>
-              <PopoverTrigger asChild>
-                <Button variant="outline">Add</Button>
-              </PopoverTrigger>
-                <PopoverContent>
-                  Describe your character
-                  <div className="grid gap-2">
-                    <div>
-                        <Label htmlFor="character_name">Name</Label>
-                        <Input
-                          id="character_name"
-                          placeholder="e.g: John Doe"
-                          />
-                    </div>
-                    <div>
-                      <Label htmlFor="character_desc">Description</Label>
-                      <Input
-                        id="character_desc"
-                        placeholder="e.g: A customer waiting in line"
-                        />
-                    </div>
-                        <Button onClick={handleAddCharacter}>Add</Button>
+              {characters.map((character, index) => (
+                <div key={index} className="flex justify-between items-center border p-2 rounded-lg">
+                  <div className="flex flex-col">
+                    <span className="font-medium">{character.name}</span>
+                    <Label className="text-sm text-gray-500">{character.description}</Label>
                   </div>
-                </PopoverContent>
-              </Popover>
+                  <div className="flex gap-2">
+                    <EditIcon />
+                    <DeleteIcon />
+                  </div>
+                </div>
+              ))}
+              
+              <AddCharPopover 
+                onCharacterAdd={handleCharacterAdd}
+                open={addCharOpen}
+                onOpenChange={setAddCharOpen}
+              />
             </div>
           </div>
         </form>
