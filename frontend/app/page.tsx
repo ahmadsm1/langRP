@@ -38,14 +38,10 @@ export default function Home() {
 
   return (
     <main>
-      Hello, world!
-      <div>
-        <Button onClick={handleClick}>
-          Show Toast
-        </Button>
-      </div>
-      <div>
-        <CardWithForm/>
+      <div className="flex h-screen">
+        <div className="m-auto">
+          <CardWithForm/>
+        </div>
       </div>
     </main>
   );
