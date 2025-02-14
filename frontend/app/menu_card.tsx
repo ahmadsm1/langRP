@@ -1,5 +1,7 @@
 import * as React from "react"
 import { useState } from "react"
+import * as PopoverPrimitive from '@radix-ui/react-popover';
+const PopoverClose = PopoverPrimitive.Close;
 
 import { Button } from "@/components/ui/button"
 import {
@@ -26,11 +28,33 @@ import {
 } from "@/components/ui/popover"
 
 
+class Character {
+  name: string;
+  description: string;
+
+  constructor(name: string, description: string) {
+    this.name = name;
+    this.description = description;
+  }
+}
+
 export function CardWithForm() {
   const LANGS = ["urdu", "french"];
 
   const [description, setDescription] = useState("");
   const [language, setLanguage] = useState(LANGS[0]);
+  const [characters, setCharacters] = useState<Character[]>([]);
+
+
+  const handleAddCharacter = () => {
+    const name = document.getElementById("character_name") as HTMLInputElement;
+    const desc = document.getElementById("character_desc") as HTMLInputElement;
+    if (name && desc) {
+      const newCharacter = new Character(name.value, desc.value);
+      setCharacters([...characters, newCharacter]);
+    }
+
+  }
 
   return (
     <Card className="w-[350px]">
@@ -43,7 +67,8 @@ export function CardWithForm() {
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="name">Description</Label>
-              <Input id="name" placeholder="coffee shop, bookstore, etc" />
+              <Input id="description" placeholder="coffee shop, bookstore, etc" 
+              onChange={(e) => setDescription(e.target.value)} required/>
             </div>
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="framework">Language</Label>
@@ -66,11 +91,23 @@ export function CardWithForm() {
                 <PopoverContent>
                   Describe your character
                   <div className="grid gap-2">
-                  <Input
-                    id="character_desc"
-                    placeholder="e.g: A customer waiting in line"
-                  />
-                  <Button>Add</Button>
+                    <div>
+                        <Label htmlFor="character_name">Name</Label>
+                        <Input
+                          id="character_name"
+                          placeholder="e.g: John Doe"
+                          />
+                    </div>
+                    <div>
+                      <Label htmlFor="character_desc">Description</Label>
+                      <Input
+                        id="character_desc"
+                        placeholder="e.g: A customer waiting in line"
+                        />
+                    </div>
+                    <PopoverClose asChild>
+                      <Button onClick={handleAddCharacter}>Add</Button>
+                      </PopoverClose>
                   </div>
                 </PopoverContent>
               </Popover>
@@ -79,7 +116,7 @@ export function CardWithForm() {
         </form>
       </CardContent>
       <CardFooter className="flex justify-between">
-        <Button>Start</Button>
+        <Button onClick={() => console.log(characters)}>Start</Button>
       </CardFooter>
     </Card>
   )
