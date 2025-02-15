@@ -65,28 +65,40 @@ export function CardWithForm() {
   const [language, setLanguage] = useState("");
   const [characters, setCharacters] = useState<Character[]>([]);
   const [addCharOpen, setAddCharOpen] = useState(false);
-  const [prompt, setPrompt] = useState("");
+  // const [prompt, setPrompt] = useState("");
   
   const handleStartClick = async () => {
-    // if (description != "" && language != "" && characters.length > 0) {
-    //   console.log(description, language, characters);
-    // }
-    // else {
-    //   console.log("Please fill out all fields.");
-    //   toast({
-    //     variant: "destructive",
-    //     title: "Error",
-    //     description: "Please enter all the fields.",
-    //   });
-    // }
-    const data = await fetchLLMResponse("What is the capital of Chile?");
-    console.log(data);
-    if (data){
-      toast({
-            title: "Response",
-            description: data,
-          });
+    if (description != "" && language != "" && characters.length > 0) {
+      let prompt = `
+        Let's do a bit of roleplay. Pretend your name is ${characters[0].name} and you
+        are a ${characters[0].description}. You are friendly, kind and are fluent in 
+        ${language} but speak plainly and simply so beginners in ${language} can 
+        understand you. You are in a ${description}, when someone comes up to talk to you.
+        Start a conversation with them. Being polite and friendly, always end your sentences
+        with something that prompts the other person to respond (this may or may not be a 
+        question). 
+        Make it like a story, where your first message is a greeting. Be sure to add 
+        narration in English to describe what's going on in the scene.
+      `;
+      
+      const data = await fetchLLMResponse(prompt);
+      console.log(data);
+      if (data){
+        toast({
+              title: "Response",
+              description: data,
+            });
+      }
     }
+    else {
+      console.log("Please fill out all fields.");
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Please enter all the fields.",
+      });
+    }
+  
   }
 
   return (
