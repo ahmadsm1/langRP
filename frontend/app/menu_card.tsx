@@ -35,6 +35,27 @@ class Character {
   }
 }
 
+async function fetchLLMResponse(prompt:string): Promise<string | null> {
+  try {
+    const response = await fetch("http://localhost:8000/", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({prompt: prompt})
+    });
+    if (!response.ok){
+      throw new Error("Network response error");
+    }
+    const data = await response.json();
+    return data.response;
+    
+  } catch (error) {
+    console.log("Error bro:", error);
+    return null;
+  }
+}
+
 export function CardWithForm() {
   const LANGS = ["urdu", "french"];
   
@@ -44,18 +65,27 @@ export function CardWithForm() {
   const [language, setLanguage] = useState("");
   const [characters, setCharacters] = useState<Character[]>([]);
   const [addCharOpen, setAddCharOpen] = useState(false);
+  const [prompt, setPrompt] = useState("");
   
-  const handleStartClick = () => {
-    if (description != "" && language != "" && characters.length > 0) {
-      console.log(description, language, characters);
-    }
-    else {
-      console.log("Please fill out all fields.");
+  const handleStartClick = async () => {
+    // if (description != "" && language != "" && characters.length > 0) {
+    //   console.log(description, language, characters);
+    // }
+    // else {
+    //   console.log("Please fill out all fields.");
+    //   toast({
+    //     variant: "destructive",
+    //     title: "Error",
+    //     description: "Please enter all the fields.",
+    //   });
+    // }
+    const data = await fetchLLMResponse("What is the capital of Chile?");
+    console.log(data);
+    if (data){
       toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Please enter all the fields.",
-      });
+            title: "Response",
+            description: data,
+          });
     }
   }
 
