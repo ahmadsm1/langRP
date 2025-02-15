@@ -72,13 +72,14 @@ export function CardWithForm() {
       let prompt = `
         Let's do a bit of roleplay. Pretend your name is ${characters[0].name} and you
         are a ${characters[0].description}. You are friendly, kind and are fluent in 
-        ${language} but speak plainly and simply so beginners in ${language} can 
-        understand you. You are in a ${description}, when someone comes up to talk to you.
-        Start a conversation with them. Being polite and friendly, always end your sentences
-        with something that prompts the other person to respond (this may or may not be a 
-        question). 
-        Make it like a story, where your first message is a greeting. Be sure to add 
-        narration in English to describe what's going on in the scene.
+        ${language} but speak plainly and simply so beginners can understand you. Speak ONLY
+        in ${language}. Now, pretend you are in a ${description}, when I come up to 
+        talk to you. Start a conversation with me. Being polite and friendly, always end 
+        your sentences with something that prompts me to respond (this may or may not be 
+        a question).
+        Make it like a story, where your first message is a greeting. Separately, be sure to
+        give narration in English to describe what's going on in the scene, whilst ensuring 
+        the dialogue is in ${language}.
       `;
       
       const data = await fetchLLMResponse(prompt);
