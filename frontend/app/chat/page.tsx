@@ -48,6 +48,7 @@ export default function ChatPage() {
   const [isLoading, setIsLoading] = useState(true);
   
   const handleSendMessage = async (message: string) => {
+    // Write a chat for the user's message
     setMessages(prevMessages => [
       ...prevMessages,
       {
@@ -57,16 +58,33 @@ export default function ChatPage() {
       }
     ]);
     setIsLoading(true);
+
+    // Loading state while waiting for the AI's response
+    setMessages(prevMessages => [
+      ...prevMessages,
+      {
+        id: prevMessages.length + 1,
+        message: '',
+        sender: 'bot',
+        isLoading: true,
+      }
+    ]);
+
+    // Write a chat for the AI's message
     const response = await fetchLLMResponse(message);
     if (response) {
-      setMessages(prevMessages => [
-        ...prevMessages,
-        {
-          id: prevMessages.length + 1,
-          message: response,
-          sender: 'bot',
-        }
-      ]);
+      setMessages(prevMessages => {
+        const newMessages = [...prevMessages];
+
+          // Replace message and set isLoading to false
+          newMessages[newMessages.length - 1] = {
+            ...newMessages[newMessages.length - 1],
+            message: response,
+            isLoading: false,
+              };
+
+        return newMessages;
+      });
     }
     setIsLoading(false);
   };
@@ -111,6 +129,7 @@ export default function ChatPage() {
       e.preventDefault();
       const userMessage = ((e.target as HTMLFormElement).elements[0] as HTMLInputElement).value;
       handleSendMessage(userMessage);
+      (e.target as HTMLFormElement).reset();
       }} className="rounded-lg border bg-background">
       <ChatInput
         placeholder="Type your message here..."
