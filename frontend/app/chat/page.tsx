@@ -39,9 +39,10 @@ export default function ChatPage() {
     isLoading?: boolean;
   }
 
-  const [convo, setConvo] = useState<ChatMessageType[]>([]);
+  const [messages, setMessages] = useState<ChatMessageType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   
+
   useEffect(() => {
     const initializeChat = async () => {
       if (prompt) {
@@ -49,7 +50,7 @@ export default function ChatPage() {
         const response = await fetchLLMResponse(prompt);
         if (response) {
           console.log(response);
-          setConvo([
+          setMessages([
             {
               id: 1,
               message: response,
@@ -64,24 +65,6 @@ export default function ChatPage() {
     initializeChat();
   }, [prompt]);
 
-  const messages = [
-    {
-      id: 1,
-      message: 'Hello, how has your day been? I hope you are doing well.',
-      sender: 'user',
-    },
-    {
-      id: 2,
-      message: 'Hi, I am doing well, thank you for asking. How can I help you today?',
-      sender: 'bot',
-    },
-    {
-      id: 3,
-      message: '',
-      sender: 'bot',
-      isLoading: true,
-    },
-  ];
 
   return (
     <ChatMessageList>
