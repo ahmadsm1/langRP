@@ -47,6 +47,29 @@ export default function ChatPage() {
   }]);
   const [isLoading, setIsLoading] = useState(true);
   
+  const handleSendMessage = async (message: string) => {
+    setMessages(prevMessages => [
+      ...prevMessages,
+      {
+        id: prevMessages.length + 1,
+        message: message,
+        sender: 'user',
+      }
+    ]);
+    setIsLoading(true);
+    const response = await fetchLLMResponse(message);
+    if (response) {
+      setMessages(prevMessages => [
+        ...prevMessages,
+        {
+          id: prevMessages.length + 1,
+          message: response,
+          sender: 'bot',
+        }
+      ]);
+    }
+    setIsLoading(false);
+  };
 
   useEffect(() => {
     const initializeChat = async () => {
@@ -84,7 +107,11 @@ export default function ChatPage() {
           </ChatBubble>
         )
       })}
-    <form className="rounded-lg border bg-background">
+    <form onSubmit={(e) => {
+      e.preventDefault();
+      const userMessage = ((e.target as HTMLFormElement).elements[0] as HTMLInputElement).value;
+      handleSendMessage(userMessage);
+      }} className="rounded-lg border bg-background">
       <ChatInput
         placeholder="Type your message here..."
         className="min-h-12 resize-none rounded-lg bg-background border-0 p-3 shadow-none focus-visible:ring-0"

@@ -83,7 +83,8 @@ export function CardWithForm() {
         a question).
         Make it like a story, where your first message is a greeting. Separately, be sure to
         give narration in English to describe what's going on in the scene, whilst ensuring 
-        the dialogue is in ${language}.
+        the dialogue is in ${language}. Make sure to only give up to one dialogue and scene
+        description at a time.
       `;
       // Pass the prompt to the chat page, which will then pass it to the backend
       setPrompt(prompt);
