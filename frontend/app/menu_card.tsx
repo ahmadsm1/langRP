@@ -24,6 +24,8 @@ import {
 } from "@/components/ui/select"
 import { useToast } from "@/hooks/use-toast"
 import { AddCharPopover } from "./character_popover";
+import { usePrompt } from "./context/PromptContext";
+import { useRouter } from "next/navigation";
 
 class Character {
   name: string;
@@ -58,7 +60,7 @@ async function fetchLLMResponse(prompt:string): Promise<string | null> {
 
 export function CardWithForm() {
   const LANGS = ["urdu", "french"];
-  
+  const router = useRouter();
   const {toast} = useToast();
 
   const [description, setDescription] = useState("");
@@ -66,6 +68,8 @@ export function CardWithForm() {
   const [characters, setCharacters] = useState<Character[]>([]);
   const [addCharOpen, setAddCharOpen] = useState(false);
   // const [prompt, setPrompt] = useState("");
+
+  const {setPrompt} = usePrompt();
   
   const handleStartClick = async () => {
     if (description != "" && language != "" && characters.length > 0) {
@@ -81,15 +85,17 @@ export function CardWithForm() {
         give narration in English to describe what's going on in the scene, whilst ensuring 
         the dialogue is in ${language}.
       `;
-      
-      const data = await fetchLLMResponse(prompt);
-      console.log(data);
-      if (data){
-        toast({
-              title: "Response",
-              description: data,
-            });
-      }
+      // Pass the prompt to the chat page, which will then pass it to the backend
+      setPrompt(prompt);
+      router.push('/chat');
+      // const data = await fetchLLMResponse(prompt);
+      // console.log(data);
+      // if (data){
+      //   toast({
+      //         title: "Response",
+      //         description: data,
+      //       });
+      // }
     }
     else {
       console.log("Please fill out all fields.");

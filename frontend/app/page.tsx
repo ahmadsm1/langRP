@@ -1,8 +1,6 @@
 'use client'
 
-import Image from "next/image";
 import { toast } from "sonner"
-import { Button } from "@/components/ui/button";
 import { CardWithForm } from "./menu_card";
 
 async function fetchHello(): Promise<string | null> {

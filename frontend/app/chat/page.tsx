@@ -5,8 +5,65 @@ import { ChatMessageList } from "@/components/ui/chat/chat-message-list";
 import { ChatInput } from "@/components/ui/chat/chat-input";
 import { Button } from "@/components/ui/button";
 import { CornerDownLeft} from "lucide-react";
+import { useEffect, useState } from 'react';
+import { usePrompt } from "../context/PromptContext";
+
+async function fetchLLMResponse(prompt:string): Promise<string | null> {
+  try {
+    const response = await fetch("http://localhost:8000/", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({prompt: prompt})
+    });
+    if (!response.ok){
+      throw new Error("Network response error");
+    }
+    const data = await response.json();
+    return data.response;
+    
+  } catch (error) {
+    console.log("Error bro:", error);
+    return null;
+  }
+}
 
 export default function ChatPage() {
+  const { prompt } = usePrompt();
+
+  interface ChatMessageType {
+    id: number;
+    message: string;
+    sender: 'user' | 'bot';
+    isLoading?: boolean;
+  }
+
+  const [convo, setConvo] = useState<ChatMessageType[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  
+  useEffect(() => {
+    const initializeChat = async () => {
+      if (prompt) {
+        setIsLoading(true);
+        const response = await fetchLLMResponse(prompt);
+        if (response) {
+          console.log(response);
+          setConvo([
+            {
+              id: 1,
+              message: response,
+              sender: 'bot',
+            }
+          ]);
+        }
+        setIsLoading(false);
+      }
+    };
+
+    initializeChat();
+  }, [prompt]);
+
   const messages = [
     {
       id: 1,
@@ -31,7 +88,7 @@ export default function ChatPage() {
       {messages.map((message, index) => {
         const variant = message.sender === 'user' ? 'sent' : 'received';
         return (
-          <ChatBubble key={message.id} variant={variant}>
+          <ChatBubble key={index} variant={variant}>
             <ChatBubbleAvatar fallback={variant === 'sent' ? 'Me' : 'AI'} />
             <ChatBubbleMessage isLoading={message.isLoading}>
               {message.message}
