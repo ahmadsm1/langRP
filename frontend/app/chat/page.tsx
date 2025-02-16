@@ -39,7 +39,12 @@ export default function ChatPage() {
     isLoading?: boolean;
   }
 
-  const [messages, setMessages] = useState<ChatMessageType[]>([]);
+  const [messages, setMessages] = useState<ChatMessageType[]>([{
+    id: 1,
+    message: '',
+    sender: 'bot',
+    isLoading: true,
+  }]);
   const [isLoading, setIsLoading] = useState(true);
   
 
