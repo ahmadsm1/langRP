@@ -10,7 +10,7 @@ import { usePrompt } from "../context/PromptContext";
 
 async function fetchLLMResponse(prompt:string): Promise<string | null> {
   try {
-    const response = await fetch("http://localhost:8000/", {
+    const response = await fetch("https://langrp.onrender.com", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
