@@ -37,27 +37,6 @@ class Character {
   }
 }
 
-async function fetchLLMResponse(prompt:string): Promise<string | null> {
-  try {
-    const response = await fetch("http://localhost:8000/", {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({prompt: prompt})
-    });
-    if (!response.ok){
-      throw new Error("Network response error");
-    }
-    const data = await response.json();
-    return data.response;
-    
-  } catch (error) {
-    console.log("Error bro:", error);
-    return null;
-  }
-}
-
 export function CardWithForm() {
   const LANGS = ["urdu", "french"];
   const router = useRouter();
@@ -73,7 +52,7 @@ export function CardWithForm() {
   
   const handleStartClick = async () => {
     if (description != "" && language != "" && characters.length > 0) {
-      let prompt = `
+      const prompt = `
         Let's do a bit of roleplay. Pretend your name is ${characters[0].name} and you
         are a ${characters[0].description}. You are friendly, kind and are fluent in 
         ${language} but speak plainly and simply so beginners can understand you. Speak ONLY
@@ -89,14 +68,6 @@ export function CardWithForm() {
       // Pass the prompt to the chat page, which will then pass it to the backend
       setPrompt(prompt);
       router.push('/chat');
-      // const data = await fetchLLMResponse(prompt);
-      // console.log(data);
-      // if (data){
-      //   toast({
-      //         title: "Response",
-      //         description: data,
-      //       });
-      // }
     }
     else {
       console.log("Please fill out all fields.");

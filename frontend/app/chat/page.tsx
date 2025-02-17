@@ -45,7 +45,6 @@ export default function ChatPage() {
     sender: 'bot',
     isLoading: true,
   }]);
-  const [isLoading, setIsLoading] = useState(true);
   
   const handleSendMessage = async (message: string) => {
     // Write a chat for the user's message
@@ -57,7 +56,6 @@ export default function ChatPage() {
         sender: 'user',
       }
     ]);
-    setIsLoading(true);
 
     // Loading state while waiting for the AI's response
     setMessages(prevMessages => [
@@ -86,13 +84,11 @@ export default function ChatPage() {
         return newMessages;
       });
     }
-    setIsLoading(false);
   };
 
   useEffect(() => {
     const initializeChat = async () => {
       if (prompt) {
-        setIsLoading(true);
         const response = await fetchLLMResponse(prompt);
         if (response) {
           console.log(response);
@@ -104,7 +100,6 @@ export default function ChatPage() {
             }
           ]);
         }
-        setIsLoading(false);
       }
     };
 
