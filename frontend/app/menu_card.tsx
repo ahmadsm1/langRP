@@ -38,7 +38,7 @@ class Character {
 }
 
 export function CardWithForm() {
-  const LANGS = ["urdu", "french"];
+  const LANGS = ["urdu", "french", "german"];
   const router = useRouter();
   const {toast} = useToast();
 
@@ -111,6 +111,7 @@ export function CardWithForm() {
             </div>
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="name">Characters</Label>
+              <Label className="text-sm text-gray-500">Can only add one character (for now)</Label>
               {characters.map((character, index) => (
                 <div key={index} className="flex justify-between items-center border p-2 rounded-lg">
                   <div className="flex flex-col">

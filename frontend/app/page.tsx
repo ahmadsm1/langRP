@@ -13,12 +13,15 @@ export default function Home() {
 
   return (
     <main>
-      <div className="flex h-screen">
-        <div className="m-auto">
-          <div className={`${specialFont.className} text-5xl font-bold text-center`}>
-                langRP
+      <div className="flex h-screen justify-center items-center">
+        <div className="text-center flex flex-col items-center space-y-4">
+          <div className={`${specialFont.className} text-5xl font-bold`}>
+        langRP
           </div>
-          <CardWithForm/>
+          <div>
+        Practice your language skills through natural conversations
+          </div>
+          <CardWithForm />
         </div>
       </div>
     </main>
