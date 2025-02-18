@@ -9,8 +9,9 @@ import { useEffect, useState } from 'react';
 import { usePrompt } from "../context/PromptContext";
 
 async function fetchLLMResponse(prompt:string): Promise<string | null> {
+  const URL = process.env.LOCAL === 'true' ? "http://localhost:8000" : "https://langrp.onrender.com";
   try {
-    const response = await fetch("https://langrp.onrender.com", {
+    const response = await fetch(URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

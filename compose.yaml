@@ -1,5 +1,5 @@
 services:
-  web: 
+  backend: 
     build:
       context: backend
       target: builder
@@ -10,6 +10,7 @@ services:
       - ./backend:/backend
     environment:
       - FLASK_ENV=development
+    env_file: ".env"
   frontend:
     build:
       context: frontend
