@@ -15,3 +15,7 @@ docker-compose up
 ```
 
 ### Testing
+Just do:
+```
+npm run test
+```
