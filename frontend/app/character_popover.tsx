@@ -68,7 +68,7 @@ export function AddCharPopover({ onCharacterAdd, open, onOpenChange }: AddCharac
               placeholder="e.g: A customer waiting in line"
               />
           </div>
-              <Button onClick={handleAddCharacter}>Add</Button>
+              <Button onClick={handleAddCharacter} data-testid="add-character-button" >Add</Button>
         </div>
       </PopoverContent>
     </Popover>
