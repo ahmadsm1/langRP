@@ -7,28 +7,7 @@ import { Button } from "@/components/ui/button";
 import { CornerDownLeft} from "lucide-react";
 import { useEffect, useState } from 'react';
 import { usePrompt } from "../context/PromptContext";
-
-async function fetchLLMResponse(prompt:string): Promise<string | null> {
-  const URL = process.env.LOCAL === 'true' ? "http://localhost:8000" : "https://langrp.onrender.com";
-  try {
-    const response = await fetch(URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({prompt: prompt})
-    });
-    if (!response.ok){
-      throw new Error("Network response error");
-    }
-    const data = await response.json();
-    return data.response;
-    
-  } catch (error) {
-    console.log("Error bro:", error);
-    return null;
-  }
-}
+import { fetchLLMResponse } from "@/utils/fetchLLMResponse";
 
 export default function ChatPage() {
   const { prompt } = usePrompt();
@@ -115,7 +94,11 @@ export default function ChatPage() {
         return (
           <ChatBubble key={index} variant={variant}>
             <ChatBubbleAvatar fallback={variant === 'sent' ? 'Me' : 'AI'} />
-            <ChatBubbleMessage isLoading={message.isLoading}>
+            <ChatBubbleMessage 
+              isLoading={message.isLoading} 
+              data-testid="chat-bubble-message"
+              data-loading={message.isLoading}
+            >
               {message.message}
             </ChatBubbleMessage>
           </ChatBubble>
