@@ -1,6 +1,6 @@
 ## langRP
-
-Learn a language by role-playing it with a chatbot.
+#### Practice your target language with interesting characters in fun scenarios! 
+![Homepage](assets/homepage.png)
 
 ### Setup
 You can find this project at [langrp.vercel.app]()
@@ -17,6 +17,7 @@ docker-compose up
 ### Testing
 Just do:
 ```
+cd frontend
 npm test
 ```
 
