@@ -17,5 +17,10 @@ docker-compose up
 ### Testing
 Just do:
 ```
-npm run test
+npm test
 ```
+
+### FAQ
+**Q. Why keep an entirely separate backend if all you're doing is use the Mistral API?**
+
+Since we eventually plan to more fine-tuned LLMs (and potentially ageantic frameworks), it made sense to keep the backend processing all separate.
