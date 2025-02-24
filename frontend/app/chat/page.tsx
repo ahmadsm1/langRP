@@ -8,6 +8,22 @@ import { CornerDownLeft} from "lucide-react";
 import { useEffect, useState } from 'react';
 import { usePrompt } from "../context/PromptContext";
 import { fetchLLMResponse } from "@/utils/fetchLLMResponse";
+import { remark } from 'remark';
+import html from 'remark-html';
+
+const MessageContent = ({ message }: { message: string }) => {
+  const [htmlMessage, setHtmlMessage] = useState<string>('');
+
+  useEffect(() => {
+    const mdToHtml = async () => {
+      const result = await remark().use(html).process(message);
+      setHtmlMessage(result.toString().trim());
+    };
+    mdToHtml();
+  }, [message]);
+
+  return <div dangerouslySetInnerHTML={{ __html: htmlMessage }} />;
+};
 
 export default function ChatPage() {
   const { prompt } = usePrompt();
@@ -99,7 +115,7 @@ export default function ChatPage() {
               data-testid="chat-bubble-message"
               data-loading={message.isLoading}
             >
-              {message.message}
+              <MessageContent message={message.message} />
             </ChatBubbleMessage>
           </ChatBubble>
         )
