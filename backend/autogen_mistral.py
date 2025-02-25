@@ -1,6 +1,6 @@
 import os
 import asyncio
-from autogen_core.models import UserMessage
+from autogen_agentchat.agents import AssistantAgent
 from autogen_ext.models.semantic_kernel import SKChatCompletionAdapter
 from semantic_kernel import Kernel
 from semantic_kernel.connectors.ai.mistral_ai import MistralAIChatCompletion, MistralAIChatPromptExecutionSettings
@@ -18,15 +18,14 @@ mistral_model_client = SKChatCompletionAdapter(
     sk_client, kernel=Kernel(memory=NullMemory()), prompt_settings=settings
 )
 
-# Call the model directly.
-async def fetch_model_result(message):
-    model_result = await mistral_model_client.create(
-        messages=[UserMessage(content=message, source="User")]
-    )
-    print(model_result)
+agent = AssistantAgent(
+    name = "geography_assistant",
+    model_client=mistral_model_client, 
+    system_message="You are a helpful assistant who only responds in Urdu",
+)
 
 async def main():
-    result = await fetch_model_result("What is the capital of France?")
+    result =  await agent.run(task="What is the capital of Morocco?")
     print(result)
 
 if __name__ == "__main__":
