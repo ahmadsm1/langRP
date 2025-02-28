@@ -23,12 +23,14 @@ export default function Home() {
     <main>
       <div className="flex h-screen justify-center items-center">
         <div className="text-center flex flex-col items-center space-y-4">
-          <div className={`${specialFont.className} text-5xl font-bold`}>
-            langRP
+          <div className="space-y-2">
+            <div className={`${specialFont.className} text-5xl font-bold`}>
+              langRP
+            </div>
+            <div>
+              Practice your language skills through natural conversations
+            </div> 
           </div>
-          <div>
-            Practice your language skills through natural conversations
-          </div> 
         {!showChat ? (
           <CardWithForm onPromptReceived={handlePromptReceived}/>
         ): (
