@@ -1,7 +1,7 @@
 'use client'
 
 import { CardWithForm } from "./menu_card";
-import ChatPage from "./chat/page";
+import Chat from "./chat";
 import localFont from 'next/font/local'
 import { useState } from 'react';
 
@@ -35,7 +35,7 @@ export default function Home() {
           <CardWithForm onPromptReceived={handlePromptReceived}/>
         ): (
           <div className="w-full max-w-3xl">
-            <ChatPage prompt={prompt}/>
+            <Chat prompt={prompt}/>
           </div>
         )}
         </div>
