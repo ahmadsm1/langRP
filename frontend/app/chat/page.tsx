@@ -128,10 +128,10 @@ export default function ChatPage() {
       const userMessage = ((e.target as HTMLFormElement).elements[0] as HTMLInputElement).value;
       handleSendMessage(userMessage);
       (e.target as HTMLFormElement).reset();
-      }} className="rounded-lg border bg-background">
+      }} className="rounded-lg border border-white/40 bg-background">
       <ChatInput
         placeholder="Type your message here..."
-        className="min-h-12 resize-none rounded-lg bg-background border-0 p-3 shadow-none focus-visible:ring-0"
+        className="min-h-12 resize-none rounded-lg border-0 p-3 shadow-none focus-visible:ring-0 border-white"
         disabled={isAnyMessageLoading}
       />
       <div className="flex items-center p-3 pt-0">

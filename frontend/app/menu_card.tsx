@@ -81,7 +81,7 @@ export function CardWithForm() {
   }
 
   return (
-    <Card className="w-[350px]">
+    <Card className="w-[350px] border-white/40">
       <CardHeader>
         <CardTitle>Start scene</CardTitle>
         <CardDescription>Choose your scene settings.</CardDescription>
