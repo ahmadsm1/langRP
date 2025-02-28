@@ -37,7 +37,11 @@ class Character {
   }
 }
 
-export function CardWithForm() {
+interface CardWithFormProps {
+  onPromptReceived: (prompt: string) => void;
+}
+
+export function CardWithForm({ onPromptReceived }: CardWithFormProps) {
   const LANGS = ["urdu", "french", "german"];
   const router = useRouter();
   const {toast} = useToast();
@@ -67,7 +71,8 @@ export function CardWithForm() {
       `;
       // Pass the prompt to the chat page, which will then pass it to the backend
       setPrompt(prompt);
-      router.push('/chat');
+      onPromptReceived(prompt);
+      // router.push('/chat');
     }
     else {
       console.log("Please fill out all fields.");

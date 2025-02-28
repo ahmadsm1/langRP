@@ -25,8 +25,13 @@ const MessageContent = ({ message }: { message: string }) => {
   return <div dangerouslySetInnerHTML={{ __html: htmlMessage }} />;
 };
 
-export default function ChatPage() {
-  const { prompt } = usePrompt();
+interface ChatPageProps {
+  prompt: string;
+}
+
+
+export default function ChatPage({ prompt }: ChatPageProps) {
+  // const { prompt } = usePrompt();
   
   
   interface ChatMessageType {
