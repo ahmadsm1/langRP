@@ -25,7 +25,6 @@ import {
 import { useToast } from "@/hooks/use-toast"
 import { AddCharPopover } from "./character_popover";
 import { usePrompt } from "./context/PromptContext";
-import { useRouter } from "next/navigation";
 
 class Character {
   name: string;
@@ -43,14 +42,12 @@ interface CardWithFormProps {
 
 export function CardWithForm({ onPromptReceived }: CardWithFormProps) {
   const LANGS = ["urdu", "french", "german"];
-  const router = useRouter();
   const {toast} = useToast();
 
   const [description, setDescription] = useState("");
   const [language, setLanguage] = useState("");
   const [characters, setCharacters] = useState<Character[]>([]);
   const [addCharOpen, setAddCharOpen] = useState(false);
-  // const [prompt, setPrompt] = useState("");
 
   const {setPrompt} = usePrompt();
   
@@ -72,7 +69,6 @@ export function CardWithForm({ onPromptReceived }: CardWithFormProps) {
       // Pass the prompt to the chat page, which will then pass it to the backend
       setPrompt(prompt);
       onPromptReceived(prompt);
-      // router.push('/chat');
     }
     else {
       console.log("Please fill out all fields.");

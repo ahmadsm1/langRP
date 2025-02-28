@@ -6,7 +6,6 @@ import { ChatInput } from "@/components/ui/chat/chat-input";
 import { Button } from "@/components/ui/button";
 import { CornerDownLeft} from "lucide-react";
 import { useEffect, useState } from 'react';
-import { usePrompt } from "../context/PromptContext";
 import { fetchLLMResponse } from "@/utils/fetchLLMResponse";
 import { remark } from 'remark';
 import html from 'remark-html';
@@ -31,10 +30,7 @@ interface ChatPageProps {
 
 
 export default function ChatPage({ prompt }: ChatPageProps) {
-  // const { prompt } = usePrompt();
-  
-  
-  interface ChatMessageType {
+    interface ChatMessageType {
     id: number;
     message: string;
     sender: 'user' | 'bot';
