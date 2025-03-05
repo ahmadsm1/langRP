@@ -5,7 +5,7 @@ import { ChatMessageList } from "@/components/ui/chat/chat-message-list";
 import { ChatInput } from "@/components/ui/chat/chat-input";
 import { Button } from "@/components/ui/button";
 import { CornerDownLeft} from "lucide-react";
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { fetchLLMResponse } from "@/utils/fetchLLMResponse";
 import { remark } from 'remark';
 import html from 'remark-html';
@@ -44,6 +44,7 @@ export default function Chat({ prompt }: ChatProps) {
   }]);
 
   const isAnyMessageLoading = messages.some(message => message.isLoading);
+  const lastMessageRef = useRef<HTMLDivElement>(null);
   
   const handleSendMessage = async (message: string) => {
     // Write a chat for the user's message
@@ -86,6 +87,12 @@ export default function Chat({ prompt }: ChatProps) {
   };
 
   useEffect(() => {
+    if (lastMessageRef.current) {
+      lastMessageRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [messages]);
+
+  useEffect(() => {
     const initializeChat = async () => {
       if (prompt) {
         const response = await fetchLLMResponse(prompt);
@@ -125,6 +132,7 @@ export default function Chat({ prompt }: ChatProps) {
               </ChatBubble>
             )
           })}
+          <div ref={lastMessageRef} />
         </ChatMessageList>
       </div>
       <form onSubmit={(e) => {
