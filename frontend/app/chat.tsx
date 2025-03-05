@@ -130,7 +130,7 @@ export default function Chat({ prompt, onExit }: ChatProps) {
       <div className="flex justify-end mb-2">
         <AlertDialog>
           <AlertDialogTrigger asChild>
-            <Button variant="destructive">Exit</Button>
+            <Button variant="destructive" data-testid="exit-chat-button">Exit</Button>
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
@@ -139,7 +139,7 @@ export default function Chat({ prompt, onExit }: ChatProps) {
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction onClick={onExit}>Continue</AlertDialogAction>
+              <AlertDialogAction onClick={onExit} data-testid="continue-exit-button">Continue</AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>

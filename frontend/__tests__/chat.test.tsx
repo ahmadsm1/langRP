@@ -76,4 +76,22 @@ describe('Chat page', () => {
             expect(messages[messages.length - 1].getAttribute('data-loading')).toBe("true")
         })
     })
+
+    it('is exited after the exit chat button is pressed', async () => {
+        const onExitMock = jest.fn();
+        
+        render(
+            <PromptProvider>
+                <Chat prompt='Test' onExit={onExitMock} />
+            </PromptProvider> 
+        );
+
+        const exitButton = screen.getByTestId('exit-chat-button');
+        fireEvent.click(exitButton);
+
+        const continueButton = screen.getByTestId("continue-exit-button");
+        fireEvent.click(continueButton);
+
+        expect(onExitMock).toHaveBeenCalled();
+    });
 })
