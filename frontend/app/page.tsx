@@ -18,6 +18,10 @@ export default function Home() {
     setPrompt(prompt);
     setShowChat(true);
   };
+  const handleExitChat = () => {
+    setShowChat(false);
+    setPrompt("");
+  };
 
   return (
     <main>
@@ -34,7 +38,7 @@ export default function Home() {
         {!showChat ? (
           <CardWithForm onPromptReceived={handlePromptReceived}/>
         ): (
-            <Chat prompt={prompt}/>
+            <Chat prompt={prompt} onExit={handleExitChat}/>
         )}
         </div>
       </div>

@@ -26,9 +26,10 @@ const MessageContent = ({ message }: { message: string }) => {
 
 interface ChatProps {
   prompt: string;
+  onExit: () => void;
 }
 
-export default function Chat({ prompt }: ChatProps) {
+export default function Chat({ prompt, onExit }: ChatProps) {
   interface ChatMessageType {
     id: number;
     message: string;
@@ -115,6 +116,14 @@ export default function Chat({ prompt }: ChatProps) {
 
   return (
     <div>
+      <div className="flex justify-end mb-2">
+        <Button 
+          variant="destructive" 
+          onClick={onExit}
+        >
+          Exit
+        </Button>
+      </div>
       <div className="w-[80vw] max-w-3xl border border-white/40 rounded-lg overflow-y-auto h-[50vh]">
         <ChatMessageList>
           {messages.map((message, index) => {

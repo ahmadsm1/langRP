@@ -11,6 +11,9 @@ global.ResizeObserver = class {
     disconnect() {}
 }
 
+// Mock scroll to bottom
+global.HTMLElement.prototype.scrollIntoView = function() {};
+
 // Mock the fetchLLMResponse function so that it returns null (instead of calling Mistral API)
 jest.mock('@/utils/fetchLLMResponse', () => {
     return {
@@ -57,7 +60,7 @@ describe('Chat page', () => {
     it('displays loading state for bot response', async () => {
         render(
             <PromptProvider>
-              <Chat prompt='Test' />
+              <Chat prompt='Test' onExit={()=>{}}/>
             </PromptProvider>
           )
 
