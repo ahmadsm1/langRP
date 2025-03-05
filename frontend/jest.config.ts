@@ -30,6 +30,5 @@ const config: Config = {
 module.exports = async () => ({
   ...(await createJestConfig(config)()),
   transformIgnorePatterns: [
-    'node_modules/(?!(lucide-react)/)'
   ]
 })

@@ -1,0 +1,4 @@
+# frontend/.husky/pre-commit
+cd frontend
+npm test
+npm run build
