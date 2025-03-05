@@ -34,11 +34,7 @@ export default function Home() {
         {!showChat ? (
           <CardWithForm onPromptReceived={handlePromptReceived}/>
         ): (
-          <div className="w-full max-w-3xl border border-white/40 overflow-auto">
-            <div className="h-full max-h-[60vh]">
-              <Chat prompt={prompt}/>
-            </div>
-          </div>
+            <Chat prompt={prompt}/>
         )}
         </div>
       </div>

@@ -107,40 +107,44 @@ export default function Chat({ prompt }: ChatProps) {
 
 
   return (
-    <ChatMessageList>
-      {messages.map((message, index) => {
-        const variant = message.sender === 'user' ? 'sent' : 'received';
-        return (
-          <ChatBubble key={index} variant={variant}>
-            <ChatBubbleAvatar fallback={variant === 'sent' ? 'Me' : 'AI'} />
-            <ChatBubbleMessage 
-              isLoading={message.isLoading} 
-              data-testid="chat-bubble-message"
-              data-loading={message.isLoading}
-            >
-              <MessageContent message={message.message} />
-            </ChatBubbleMessage>
-          </ChatBubble>
-        )
-      })}
-    <form onSubmit={(e) => {
-      e.preventDefault();
-      const userMessage = ((e.target as HTMLFormElement).elements[0] as HTMLInputElement).value;
-      handleSendMessage(userMessage);
-      (e.target as HTMLFormElement).reset();
-      }} className="rounded-lg border border-white/40 bg-background">
-      <ChatInput
-        placeholder="Type your message here..."
-        className="min-h-12 resize-none rounded-lg border-0 p-3 shadow-none focus-visible:ring-0 border-white"
-        disabled={isAnyMessageLoading}
-      />
-      <div className="flex items-center p-3 pt-0">
-        <Button size="sm" className="ml-auto gap-1.5" disabled={isAnyMessageLoading}>
-          Send Message
-          <CornerDownLeft className="size-3.5" />
-        </Button>
+    <div>
+      <div className="w-[80vw] max-w-3xl border border-white/40 rounded-lg overflow-y-auto h-[50vh]">
+        <ChatMessageList>
+          {messages.map((message, index) => {
+            const variant = message.sender === 'user' ? 'sent' : 'received';
+            return (
+              <ChatBubble key={index} variant={variant}>
+                <ChatBubbleAvatar fallback={variant === 'sent' ? 'Me' : 'AI'} />
+                <ChatBubbleMessage 
+                  isLoading={message.isLoading} 
+                  data-testid="chat-bubble-message"
+                  data-loading={message.isLoading}
+                >
+                  <MessageContent message={message.message} />
+                </ChatBubbleMessage>
+              </ChatBubble>
+            )
+          })}
+        </ChatMessageList>
       </div>
-    </form>
-    </ChatMessageList>
+      <form onSubmit={(e) => {
+        e.preventDefault();
+        const userMessage = ((e.target as HTMLFormElement).elements[0] as HTMLInputElement).value;
+        handleSendMessage(userMessage);
+        (e.target as HTMLFormElement).reset();
+        }} className="rounded-lg border border-white/40 bg-background">
+        <ChatInput
+          placeholder="Type your message here..."
+          className="min-h-12 resize-none rounded-lg border-0 p-3 shadow-none focus-visible:ring-0 border-white"
+          disabled={isAnyMessageLoading}
+        />
+        <div className="flex items-center p-3 pt-0">
+          <Button size="sm" className="ml-auto gap-1.5" disabled={isAnyMessageLoading}>
+            Send Message
+            <CornerDownLeft className="size-3.5" />
+          </Button>
+        </div>
+      </form>
+    </div>
   )
 }
