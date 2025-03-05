@@ -174,6 +174,17 @@ export default function Chat({ prompt, onExit }: ChatProps) {
           placeholder="Type your message here..."
           className="min-h-12 resize-none rounded-lg border-0 p-3 shadow-none focus-visible:ring-0 border-white"
           disabled={isAnyMessageLoading}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+              e.preventDefault(); // Prevent adding a new line
+              const form = e.currentTarget.form;
+              if (form && !isAnyMessageLoading) {
+                form.dispatchEvent(
+                  new Event('submit', { cancelable: true, bubbles: true })
+                );
+              }
+            }
+          }}
         />
         <div className="flex items-center p-3 pt-0">
           <Button size="sm" className="ml-auto gap-1.5" disabled={isAnyMessageLoading}>
