@@ -9,6 +9,17 @@ import { useEffect, useRef, useState } from 'react';
 import { fetchLLMResponse } from "@/utils/fetchLLMResponse";
 import { remark } from 'remark';
 import html from 'remark-html';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 
 const MessageContent = ({ message }: { message: string }) => {
   const [htmlMessage, setHtmlMessage] = useState<string>('');
@@ -117,12 +128,21 @@ export default function Chat({ prompt, onExit }: ChatProps) {
   return (
     <div>
       <div className="flex justify-end mb-2">
-        <Button 
-          variant="destructive" 
-          onClick={onExit}
-        >
-          Exit
-        </Button>
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button variant="destructive">Exit</Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Exit Chat</AlertDialogTitle>
+              <AlertDialogDescription>Are you sure you want to exit the chat?</AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction onClick={onExit}>Continue</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
       <div className="w-[80vw] max-w-3xl border border-white/40 rounded-lg overflow-y-auto h-[50vh]">
         <ChatMessageList>
